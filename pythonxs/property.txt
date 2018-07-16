@@ -1,0 +1,67 @@
+#面向对象高级编程》使用@property>函数装饰器概念的拓展
+class Student(object):
+    def get_score(self):
+        return self._score
+    def set_score(self,value):
+        if not isinstance(value,int):
+            raise ValueError('score must be an integer!')
+        if value <0 or value > 100:
+            raise ValueError('score must between 0 ~100!')
+        self._score = value
+
+
+
+class Student(object):
+    @property
+    def score(self):
+        return self._score
+    @score.setter
+    def score(self,value):
+        if not isinstance(value,int):
+            raise ValueError('score must be an integer!')
+        if value <0 or value > 100:
+            raise ValueError('score must between 0 ~100!')
+        self._score = value
+
+
+#1的调用方法略显复杂，没有直接调用属性这么简单
+'''1\的调用方式
+>>>>>> s = Student()
+>>> s.set_score(60) # ok!
+>>> s.get_score()
+60
+>>> s.set_score(9999)
+Traceback (most recent call last):
+  ...
+ValueError: score must between 0 ~ 100!
+2\的调用方式
+>>> s = Student()
+>>> s.score = 60 # OK，实际转化为s.set_score(60)
+>>> s.score # OK，实际转化为s.get_score()
+60
+>>> s.score = 9999
+Traceback (most recent call last):
+  ...
+ValueError: score must between 0 ~ 100!
+相对比：省去了get_score 和set_score的方法的定义
+扩展方式只定义getter方法，不定义setter方法就是一个只读属性
+class Student(object):
+
+    @property
+    def birth(self):
+        return self._birth
+
+    @birth.setter
+    def birth(self, value):
+        self._birth = value
+
+    @property
+    def age(self):
+        return 2015 - self._birth
+
+
+小结
+@property广泛应用在类的定义中，可以让调用者写出简短的代码，
+同时保证对参数进行必要的检查，这样，程序运行时就减少了出错的可能性。
+涉及到函数装饰器概念的拓展，好好复习下装饰器的概念
+'''
